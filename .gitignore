@@ -1,4 +1,35 @@
+# Dependencies
 node_modules
+
+# Build
 dist
+dist-ssr
+*.local
+
+# Vite
 .vite
-.env*
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Test / coverage
+coverage
+*.lcov
+
+# TypeScript
+*.tsbuildinfo
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+.idea
+.vscode/*
+!.vscode/extensions.json
