@@ -8,6 +8,17 @@ import { defineConfig } from "vite";
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 const port = 3002;
 const origin = process.env.VITE_PUBLIC_ORIGIN ?? `http://localhost:${port}`;
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "GET,OPTIONS",
+  "Access-Control-Allow-Headers": "*",
+};
+const reactShared = {
+  singleton: true,
+  requiredVersion: false,
+  strictVersion: false,
+  import: false as const,
+};
 
 export default defineConfig({
   plugins: [
@@ -16,12 +27,16 @@ export default defineConfig({
       filename: "remoteEntry.js",
       manifest: true,
       dts: false,
+      shareStrategy: "loaded-first",
       exposes: {
         "./SpeedReader": "./src/speed-reader.tsx",
       },
       shared: {
-        react: { singleton: true, requiredVersion: "19.2.4" },
-        "react-dom": { singleton: true, requiredVersion: "19.2.4" },
+        react: reactShared,
+        "react-dom": reactShared,
+        "react-dom/client": reactShared,
+        "react/jsx-runtime": reactShared,
+        "react/jsx-dev-runtime": reactShared,
       },
     }),
     react(),
@@ -37,11 +52,14 @@ export default defineConfig({
     origin,
     cors: true,
     strictPort: true,
+    hmr: false,
+    headers: corsHeaders,
   },
   preview: {
     port,
     cors: true,
     strictPort: true,
+    headers: corsHeaders,
   },
   base: `${origin}/`,
   build: {

@@ -188,3 +188,5 @@ export function SpeedReader() {
     </div>
   );
 }
+
+export default SpeedReader;
